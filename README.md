@@ -37,8 +37,10 @@ offline (service worker caches the app shell; all data lives on-device).
   photograph-the-memory-and-gift-the-item suggestion).
 - **Donate** — checklist of donate items, donation-center map search,
   home-pickup links, printable checklist.
-- **Gift** — Family Claim Board: family members claim items (in person or via
-  the shared list through SMS/email), printable family packing list.
+- **Gift** — Family Claim Board: "Share with family" creates a private web
+  link (sent via SMS/email) where family members see item photos and tap
+  Claim; claims sync back to the senior's app automatically. In-person
+  claiming and a printable family packing list also work.
 - **Sell** — asking prices, one-tap copy of photo + description for
   marketplace listings, Garage Sale Mode with a cash tracker, printable
   price tags.
@@ -58,9 +60,13 @@ palette.
 - All data (rooms, items, photos) is local-first in IndexedDB (`idb`). The
   only network call is the optional photo-identification request to the
   Anthropic API (`claude-opus-4-8`, key stored in localStorage).
-- The Family Claim Board is currently device-local (hand the phone over, or
-  share the text list). A real-time shared web link would need a small
-  backend — the natural next step.
+- The Family Claim Board's shared link is backed by a small Cloudflare
+  Worker + KV (`worker/`, deployed at
+  `https://settlein-claims.mshearn.workers.dev`). Boards use unguessable
+  128-bit IDs, mutations require an owner token held only by the sharing
+  device, photos are downscaled before upload, and boards expire 90 days
+  after the last activity. Claims may take up to a minute to propagate (KV
+  edge caching). Deploy updates with `cd worker && npx wrangler deploy`.
 
 ## Future extensions (considered, not yet built)
 

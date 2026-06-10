@@ -6,8 +6,8 @@
 import type { Item } from "./types";
 import { downscalePhoto } from "./photo";
 
-/** Set after deploying worker/ — empty string disables remote sharing. */
-export const CLAIMS_API = "";
+/** The deployed worker/ API — empty string disables remote sharing. */
+export const CLAIMS_API = "https://settlein-claims.mshearn.workers.dev";
 
 export interface BoardItem {
   id: string;
