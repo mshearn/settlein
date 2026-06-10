@@ -15,6 +15,7 @@ export function RoomView({
   showToast: (m: string) => void;
 }) {
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [confirmingRemove, setConfirmingRemove] = useState(false);
   const room = store.rooms.find((r) => r.id === roomId);
   const items = store.items.filter((i) => i.roomId === roomId);
 
@@ -110,6 +111,48 @@ export function RoomView({
       {items.length > 0 && (
         <button className="btn btn-secondary no-print" onClick={() => window.print()}>
           🖨️ Print Room Checklist
+        </button>
+      )}
+
+      {confirmingRemove ? (
+        <div className="card no-print" style={{ textAlign: "center" }}>
+          <p style={{ marginTop: 0 }}>
+            Remove <strong>{room.name}</strong>
+            {items.length > 0 && (
+              <>
+                {" "}
+                and its {items.length} {items.length === 1 ? "item" : "items"}
+              </>
+            )}
+            ? This can't be undone.
+          </p>
+          <div className="btn-row">
+            <button
+              className="btn btn-primary"
+              onClick={() => setConfirmingRemove(false)}
+            >
+              Keep room
+            </button>
+            <button
+              className="btn btn-secondary"
+              style={{ borderColor: "var(--gift)", color: "var(--gift)" }}
+              onClick={async () => {
+                await store.removeRoom(roomId);
+                showToast(`${room.name} removed`);
+                navigate({ screen: "home" });
+              }}
+            >
+              Remove room
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          className="btn-quiet no-print"
+          style={{ color: "var(--gift)" }}
+          onClick={() => setConfirmingRemove(true)}
+        >
+          Remove this room…
         </button>
       )}
     </main>

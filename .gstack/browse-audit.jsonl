@@ -112,3 +112,45 @@
 {"ts":"2026-06-10T15:09:14.723Z","cmd":"click","args":"nav button:nth-of-type(3)","origin":"http://localhost:4173/settlein/","durationMs":17,"status":"ok","hasCookies":false,"mode":"launched"}
 {"ts":"2026-06-10T15:09:17.819Z","cmd":"text","args":"","origin":"http://localhost:4173/settlein/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
 {"ts":"2026-06-10T15:09:17.883Z","cmd":"screenshot","args":"/tmp/settlein-sync.png","origin":"http://localhost:4173/settlein/","durationMs":15,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:45:50.157Z","cmd":"goto","args":"http://localhost:4173/settlein/","origin":"http://localhost:4173/settlein/","durationMs":53,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:45:50.221Z","cmd":"js","args":"(async () => { const regs = await navigator.serviceWorker.getRegistrations(); for (const r of regs) await r.unregister(); for (const k of await caches.keys()) await caches.delete(k); return 'cleared';…","origin":"http://localhost:4173/settlein/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:45:50.280Z","cmd":"reload","args":"","origin":"http://localhost:4173/settlein/","durationMs":7,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:45:51.387Z","cmd":"reload","args":"","origin":"http://localhost:4173/settlein/","durationMs":14,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:45:52.975Z","cmd":"text","args":"","origin":"http://localhost:4173/settlein/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:46:10.599Z","cmd":"click","args":"main > button.btn.btn-primary","origin":"http://localhost:4173/settlein/","durationMs":68,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:46:11.032Z","cmd":"click","args":"section.card button.btn-secondary","origin":"http://localhost:4173/settlein/","durationMs":26,"status":"error","hasCookies":false,"mode":"launched","error":"click: Error: strict mode violation: locator('section.card button.btn-secondary') resolved to 7 elements:\n    1) <button class=\"btn btn-secondary\">🛋️ Living Room</button> aka getByRole('button', { name: '🛋️ Living Room' })\n    2) <button class=\"btn btn-secondary\">🍳 Kitchen</button> aka getByRole(…"}
+{"ts":"2026-06-10T15:46:46.117Z","cmd":"click","args":"button[aria-label='Back to home']","origin":"http://localhost:4173/settlein/","durationMs":35003,"status":"error","hasCookies":false,"mode":"launched","error":"click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[aria-label=\\'Back to home\\']')\u001b[22m\n"}
+{"ts":"2026-06-10T15:47:11.309Z","cmd":"fill","args":"input#room-name living room","origin":"http://localhost:4173/settlein/","durationMs":9,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:11.362Z","cmd":"press","args":"Enter","origin":"http://localhost:4173/settlein/","durationMs":5,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:11.715Z","cmd":"click","args":"main > button.btn.btn-primary","origin":"http://localhost:4173/settlein/","durationMs":30510,"status":"error","hasCookies":false,"mode":"launched","error":"click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('main > button.btn.btn-primary')\u001b[22m\n"}
+{"ts":"2026-06-10T15:47:12.249Z","cmd":"text","args":"","origin":"http://localhost:4173/settlein/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:21.645Z","cmd":"text","args":"","origin":"http://localhost:4173/settlein/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:21.701Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/settlein/","durationMs":8,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:41.249Z","cmd":"click","args":"@e1","origin":"http://localhost:4173/settlein/","durationMs":28,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:41.635Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/settlein/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:41.714Z","cmd":"click","args":"main button.btn-primary","origin":"http://localhost:4173/settlein/","durationMs":30,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:42.196Z","cmd":"fill","args":"input#room-name LIVING ROOM","origin":"http://localhost:4173/settlein/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:42.248Z","cmd":"press","args":"Enter","origin":"http://localhost:4173/settlein/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:43.145Z","cmd":"text","args":"","origin":"http://localhost:4173/settlein/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:56.416Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/settlein/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:56.480Z","cmd":"click","args":"button.btn-quiet","origin":"http://localhost:4173/settlein/","durationMs":16,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:57.045Z","cmd":"screenshot","args":"/tmp/settlein-removeroom.png","origin":"http://localhost:4173/settlein/","durationMs":74,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:57.094Z","cmd":"text","args":"","origin":"http://localhost:4173/settlein/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:47:57.145Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/settlein/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:48:08.761Z","cmd":"click","args":"@e4","origin":"http://localhost:4173/settlein/","durationMs":25,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:48:09.454Z","cmd":"text","args":"","origin":"http://localhost:4173/settlein/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:48:20.695Z","cmd":"click","args":"main button.btn-primary","origin":"http://localhost:4173/settlein/","durationMs":14,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:48:21.089Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/settlein/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:48:31.561Z","cmd":"click","args":"@e3","origin":"http://localhost:4173/settlein/","durationMs":24,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:48:32.077Z","cmd":"click","args":"button[aria-label='Back to home']","origin":"http://localhost:4173/settlein/","durationMs":22,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:48:32.481Z","cmd":"click","args":"button.btn-quiet","origin":"http://localhost:4173/settlein/","durationMs":18,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:48:32.965Z","cmd":"text","args":"","origin":"http://localhost:4173/settlein/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:48:33.065Z","cmd":"screenshot","args":"/tmp/settlein-settings.png","origin":"http://localhost:4173/settlein/","durationMs":52,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:48:45.058Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/settlein/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:49:15.595Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/settlein/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:49:20.111Z","cmd":"click","args":"div.card:nth-of-type(2) button.btn-secondary","origin":"http://localhost:4173/settlein/","durationMs":35004,"status":"error","hasCookies":false,"mode":"launched","error":"click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('div.card:nth-of-type(2) button.btn-secondary')\u001b[22m\n"}
+{"ts":"2026-06-10T15:49:28.494Z","cmd":"click","args":"@e4","origin":"http://localhost:4173/settlein/","durationMs":115,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:49:29.051Z","cmd":"screenshot","args":"/tmp/settlein-erase-confirm.png","origin":"http://localhost:4173/settlein/","durationMs":61,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:49:29.102Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/settlein/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:49:39.810Z","cmd":"click","args":"@e5","origin":"http://localhost:4173/settlein/","durationMs":21,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T15:49:42.406Z","cmd":"text","args":"","origin":"http://localhost:4173/settlein/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}

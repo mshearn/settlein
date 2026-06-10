@@ -11,11 +11,12 @@
  *   PUT  /board/:id             {items}  + token   → {ok}   (claims preserved by caller)
  *   POST /board/:id/claim       {itemId, name}     → {ok, claimedBy} | 409 {claimedBy}
  *   POST /board/:id/unclaim     {itemId} + token   → {ok}
+ *   DELETE /board/:id                    + token   → {ok}  (revokes the shared link)
  */
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET,POST,PUT,OPTIONS",
+  "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type,X-Owner-Token",
   "Access-Control-Max-Age": "86400",
 };
@@ -117,6 +118,13 @@ export default {
         board.items = sanitizeItems(body.items);
         board.updatedAt = Date.now();
         await putBoard(env, id, board);
+        return json({ ok: true });
+      }
+
+      // DELETE /board/:id — owner revokes the shared link
+      if (parts.length === 2 && request.method === "DELETE") {
+        if (!isOwner) return err(403, "bad token");
+        await env.BOARDS.delete(`board:${id}`);
         return json({ ok: true });
       }
 

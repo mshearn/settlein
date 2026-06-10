@@ -46,6 +46,11 @@ offline (service worker caches the app shell; all data lives on-device).
   price tags.
 - **Print/Export** — every list has a print button (use "Save as PDF" in the
   print dialog to export).
+- **Undo & cleanup** — remove an item (⋯ menu), remove a room (with its
+  items, confirmed first), duplicate room names are caught and redirected to
+  the existing room, "Stop sharing" revokes the family link, and Settings →
+  "Erase everything" resets the device (and revokes the link) for a fresh
+  start.
 
 ## Accessibility
 

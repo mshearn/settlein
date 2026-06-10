@@ -5,6 +5,7 @@ import { PhotoImg } from "../components/PhotoImg";
 import {
   claimRemote,
   claimsConfigured,
+  deleteSharedBoard,
   fetchBoard,
   getStoredBoard,
   shareGiftBoard,
@@ -21,10 +22,16 @@ export function GiftView({
   const [claiming, setClaiming] = useState<string | null>(null);
   const [claimName, setClaimName] = useState("");
   const [sharing, setSharing] = useState(false);
+  const [board, setBoard] = useState(getStoredBoard());
 
   const items = store.items.filter((i) => i.disposition === "gift");
   const claimed = items.filter((i) => i.claimedBy);
-  const board = getStoredBoard();
+
+  async function stopSharing() {
+    await deleteSharedBoard();
+    setBoard(null);
+    showToast("Sharing is off — the family link no longer works.");
+  }
 
   // Pull family claims from the shared board whenever this screen opens.
   useEffect(() => {
@@ -76,6 +83,7 @@ export function GiftView({
       setSharing(true);
       try {
         const url = await shareGiftBoard(items);
+        setBoard(getStoredBoard());
         if (navigator.share) {
           try {
             await navigator.share({
@@ -229,6 +237,15 @@ export function GiftView({
               onClick={() => window.print()}
             >
               🖨️ Print Family Packing List
+            </button>
+          )}
+          {board && (
+            <button
+              className="btn-quiet no-print"
+              style={{ color: "var(--gift)" }}
+              onClick={stopSharing}
+            >
+              Stop sharing — turn the family link off
             </button>
           )}
         </>

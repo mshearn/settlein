@@ -118,7 +118,7 @@ function LocalApp() {
   let screen: React.ReactNode;
   switch (route.screen) {
     case "home":
-      screen = <Dashboard store={store} navigate={navigate} />;
+      screen = <Dashboard store={store} navigate={navigate} showToast={showToast} />;
       break;
     case "room":
       screen = (

@@ -11,9 +11,11 @@ function roomStatus(count: number): string {
 export function Dashboard({
   store,
   navigate,
+  showToast,
 }: {
   store: Store;
   navigate: (r: Route) => void;
+  showToast: (m: string) => void;
 }) {
   const [adding, setAdding] = useState(false);
   const [customName, setCustomName] = useState("");
@@ -29,6 +31,16 @@ export function Dashboard({
   async function addRoom(name: string, emoji: string) {
     const trimmed = name.trim();
     if (!trimmed) return;
+    const existing = store.rooms.find(
+      (r) => r.name.toLowerCase() === trimmed.toLowerCase(),
+    );
+    if (existing) {
+      showToast(`You already have a "${existing.name}" room — opening it.`);
+      setAdding(false);
+      setCustomName("");
+      navigate({ screen: "room", roomId: existing.id });
+      return;
+    }
     const room = await store.addRoom(trimmed, emoji);
     setAdding(false);
     setCustomName("");

@@ -129,6 +129,26 @@ export async function claimRemote(
   return { ok: true, claimedBy: data.claimedBy };
 }
 
+/**
+ * Revoke the shared family link: delete the remote board and forget it
+ * locally. Safe to call when nothing is shared. The local copy is removed
+ * even if the server is unreachable — the board still expires on its own.
+ */
+export async function deleteSharedBoard(): Promise<void> {
+  const stored = getStoredBoard();
+  if (!stored) return;
+  try {
+    if (claimsConfigured()) {
+      await fetch(`${CLAIMS_API}/board/${stored.id}`, {
+        method: "DELETE",
+        headers: { "X-Owner-Token": stored.token },
+      });
+    }
+  } finally {
+    localStorage.removeItem(BOARD_KEY);
+  }
+}
+
 export async function unclaimRemote(
   boardId: string,
   itemId: string,

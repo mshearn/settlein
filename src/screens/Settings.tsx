@@ -1,6 +1,8 @@
 import { useState } from "react";
 import type { Route } from "../App";
 import { getApiKey, setApiKey } from "../ai";
+import { clearAllData } from "../db";
+import { deleteSharedBoard, getStoredBoard } from "../claims";
 
 export function Settings({
   navigate,
@@ -10,6 +12,17 @@ export function Settings({
   showToast: (m: string) => void;
 }) {
   const [key, setKey] = useState(getApiKey());
+  const [confirmingErase, setConfirmingErase] = useState(false);
+  const [erasing, setErasing] = useState(false);
+
+  async function eraseEverything() {
+    setErasing(true);
+    // Revoke the shared family link first so the photos don't outlive the data.
+    await deleteSharedBoard();
+    await clearAllData();
+    // A clean reload is the simplest honest reset of all in-memory state.
+    window.location.reload();
+  }
 
   return (
     <main className="screen">
@@ -63,6 +76,49 @@ export function Settings({
         >
           Save
         </button>
+      </div>
+
+      <div className="card">
+        <h3 style={{ fontFamily: "inherit", fontSize: "1.1rem" }}>
+          Start over
+        </h3>
+        <p className="muted small">
+          Erase every room, item, and photo from this device
+          {getStoredBoard() ? ", and turn off the shared family link" : ""}.
+          Useful after testing, or when helping someone else start fresh.
+        </p>
+        {confirmingErase ? (
+          <>
+            <p style={{ fontWeight: 700 }}>
+              Are you sure? Everything will be gone for good.
+            </p>
+            <div className="btn-row">
+              <button
+                className="btn btn-primary"
+                onClick={() => setConfirmingErase(false)}
+                disabled={erasing}
+              >
+                Keep my things
+              </button>
+              <button
+                className="btn btn-secondary"
+                style={{ borderColor: "var(--gift)", color: "var(--gift)" }}
+                onClick={eraseEverything}
+                disabled={erasing}
+              >
+                {erasing ? "Erasing…" : "Yes, erase it all"}
+              </button>
+            </div>
+          </>
+        ) : (
+          <button
+            className="btn btn-secondary"
+            style={{ borderColor: "var(--gift)", color: "var(--gift)" }}
+            onClick={() => setConfirmingErase(true)}
+          >
+            Erase everything…
+          </button>
+        )}
       </div>
 
       <div className="card">

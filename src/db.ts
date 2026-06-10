@@ -65,3 +65,12 @@ export async function deleteItem(itemId: string): Promise<void> {
   const db = await getDB();
   await db.delete("items", itemId);
 }
+
+/** Settings → "Erase everything": wipe all rooms and items. */
+export async function clearAllData(): Promise<void> {
+  const db = await getDB();
+  const tx = db.transaction(["rooms", "items"], "readwrite");
+  await tx.objectStore("rooms").clear();
+  await tx.objectStore("items").clear();
+  await tx.done;
+}

@@ -1,8 +1,8 @@
 {
-  "pid": 52002,
-  "port": 55900,
-  "token": "08837f10-dd13-431f-948f-3fe09b46ac57",
-  "startedAt": "2026-06-10T14:59:35.974Z",
+  "pid": 54033,
+  "port": 51106,
+  "token": "a4793fab-daf0-4af3-8c84-f4a241d3f1a8",
+  "startedAt": "2026-06-10T15:45:50.019Z",
   "serverPath": "/Users/annabeck/.claude/skills/gstack/browse/src/server.ts",
   "mode": "launched",
   "configHash": "303a7eeccc03078b"
