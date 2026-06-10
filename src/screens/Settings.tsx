@@ -22,15 +22,19 @@ export function Settings({
 
       <div className="card">
         <h3 style={{ fontFamily: "inherit", fontSize: "1.1rem" }}>
-          Automatic photo identification
+          Photo identification
         </h3>
         <p className="muted small">
-          With an Anthropic API key, SettleIn can look at each photo and suggest
-          the item's name and a ready-to-use selling description. Without a key,
-          everything still works — you just name items yourself.
+          SettleIn recognizes items automatically, right on this device — free,
+          with no account needed. The first photo takes a little longer while
+          the recognizer downloads; after that it even works offline.
+        </p>
+        <p className="muted small">
+          Optional upgrade: with an Anthropic API key, photos get richer names
+          and ready-to-use selling descriptions instead of simple labels.
         </p>
         <label className="field-label" htmlFor="api-key">
-          Anthropic API key
+          Anthropic API key (optional)
         </label>
         <input
           id="api-key"
@@ -49,7 +53,11 @@ export function Settings({
           className="btn btn-primary"
           onClick={() => {
             setApiKey(key);
-            showToast(key.trim() ? "Photo identification is on" : "Key removed");
+            showToast(
+              key.trim()
+                ? "Upgraded photo identification is on"
+                : "Key removed — using free on-device recognition",
+            );
             navigate({ screen: "home" });
           }}
         >

@@ -32,3 +32,36 @@
 {"ts":"2026-06-10T04:35:52.174Z","cmd":"click","args":"@e3","origin":"http://localhost:4173/","durationMs":24,"status":"ok","hasCookies":false,"mode":"launched"}
 {"ts":"2026-06-10T04:35:52.567Z","cmd":"text","args":"","origin":"http://localhost:4173/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
 {"ts":"2026-06-10T04:35:52.647Z","cmd":"screenshot","args":"/tmp/settlein-garage.png","origin":"http://localhost:4173/","durationMs":26,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:43:53.048Z","cmd":"goto","args":"https://mshearn.github.io/settlein/","origin":"https://mshearn.github.io/settlein/","durationMs":381,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:43:53.116Z","cmd":"console","args":"--errors","origin":"https://mshearn.github.io/settlein/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:43:53.195Z","cmd":"screenshot","args":"/tmp/settlein-live.png","origin":"https://mshearn.github.io/settlein/","durationMs":24,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:54:29.640Z","cmd":"goto","args":"http://localhost:4173/settlein/","origin":"http://localhost:4173/settlein/","durationMs":54,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:54:29.710Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/settlein/","durationMs":13,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:54:40.730Z","cmd":"click","args":"@e2","origin":"http://localhost:4173/settlein/","durationMs":50,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:54:41.124Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/settlein/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:54:49.312Z","cmd":"click","args":"@e3","origin":"http://localhost:4173/settlein/","durationMs":34,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:54:50.408Z","cmd":"upload","args":"input[type=file] /tmp/chair-test.jpg","origin":"http://localhost:4173/settlein/","durationMs":8,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:55:20.496Z","cmd":"text","args":"","origin":"http://localhost:4173/settlein/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:55:33.896Z","cmd":"console","args":"","origin":"http://localhost:4173/settlein/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:55:58.477Z","cmd":"reload","args":"","origin":"http://localhost:4173/settlein/","durationMs":11,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:55:59.561Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/settlein/","durationMs":7,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:56:07.872Z","cmd":"click","args":"@e2","origin":"http://localhost:4173/settlein/","durationMs":29,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:56:08.255Z","cmd":"click","args":"button.btn-primary","origin":"http://localhost:4173/settlein/","durationMs":15,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:56:09.349Z","cmd":"upload","args":"input[type=file] /tmp/chair-test.jpg","origin":"http://localhost:4173/settlein/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:56:49.439Z","cmd":"console","args":"","origin":"http://localhost:4173/settlein/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:56:58.391Z","cmd":"text","args":"","origin":"http://localhost:4173/settlein/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:57:24.477Z","cmd":"reload","args":"","origin":"http://localhost:4173/settlein/","durationMs":10,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:57:25.620Z","cmd":"click","args":"button.room-card","origin":"http://localhost:4173/settlein/","durationMs":43,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:57:26.034Z","cmd":"click","args":"button.btn-primary","origin":"http://localhost:4173/settlein/","durationMs":28,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:57:27.119Z","cmd":"upload","args":"input[type=file] /tmp/chair-test.jpg","origin":"http://localhost:4173/settlein/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:58:12.208Z","cmd":"console","args":"","origin":"http://localhost:4173/settlein/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:58:36.089Z","cmd":"js","args":"(async () => { const regs = await navigator.serviceWorker.getRegistrations(); for (const r of regs) await r.unregister(); const keys = await caches.keys(); for (const k of keys) await caches.delete(k)…","origin":"http://localhost:4173/settlein/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:58:46.590Z","cmd":"reload","args":"","origin":"http://localhost:4173/settlein/","durationMs":23,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:58:47.682Z","cmd":"js","args":"document.querySelector('script[type=module]')?.src","origin":"http://localhost:4173/settlein/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:58:47.738Z","cmd":"reload","args":"","origin":"http://localhost:4173/settlein/","durationMs":8,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:58:49.383Z","cmd":"click","args":"button.room-card","origin":"http://localhost:4173/settlein/","durationMs":48,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:58:49.801Z","cmd":"click","args":"button.btn-primary","origin":"http://localhost:4173/settlein/","durationMs":24,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:58:50.888Z","cmd":"upload","args":"input[type=file] /tmp/chair-test.jpg","origin":"http://localhost:4173/settlein/","durationMs":4,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:59:41.080Z","cmd":"console","args":"","origin":"http://localhost:4173/settlein/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:59:52.979Z","cmd":"screenshot","args":"/tmp/settlein-localid.png","origin":"http://localhost:4173/settlein/","durationMs":51,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:59:53.036Z","cmd":"text","args":"","origin":"http://localhost:4173/settlein/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}

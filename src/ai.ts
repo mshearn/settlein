@@ -64,14 +64,29 @@ async function blobToBase64(blob: Blob): Promise<string> {
 }
 
 /**
- * Identify the item in a photo. Returns null when no API key is configured
- * or the device is offline — the app degrades to manual naming.
+ * Identify the item in a photo.
+ *
+ * Default path: the free on-device classifier (no account, no cost).
+ * If the user has set an Anthropic API key, that's used instead for richer
+ * names and marketplace-ready descriptions, with the on-device model as the
+ * fallback when the call fails. Returns null when neither can tell — the
+ * app degrades to manual naming.
  */
 export async function identifyItem(
   photo: Blob,
 ): Promise<Identification | null> {
-  if (!aiAvailable()) return null;
+  const { identifyLocally } = await import("./localId");
+  if (aiAvailable()) {
+    try {
+      return await identifyWithClaude(photo);
+    } catch {
+      return identifyLocally(photo);
+    }
+  }
+  return identifyLocally(photo);
+}
 
+async function identifyWithClaude(photo: Blob): Promise<Identification | null> {
   const client = new Anthropic({
     apiKey: getApiKey(),
     dangerouslyAllowBrowser: true,

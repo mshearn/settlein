@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import type { Route, Store } from "../App";
 import type { Disposition } from "../types";
 import { DISPOSITION_LABELS, type Item } from "../types";
-import { aiAvailable, identifyItem, CATEGORIES, type Identification } from "../ai";
+import { identifyItem, CATEGORIES, type Identification } from "../ai";
+import { preloadLocalModel } from "../localId";
 import { downscalePhoto } from "../photo";
 import { listen, speechSupported, type ListenHandle } from "../speech";
 import { newId } from "../db";
@@ -43,6 +44,8 @@ export function AddItem({
   const [answerMemory, setAnswerMemory] = useState<boolean | null>(null);
 
   useEffect(() => {
+    // Warm up the on-device recognition model while the user frames a shot.
+    preloadLocalModel();
     return () => listenHandle.current?.stop();
   }, []);
 
@@ -65,20 +68,18 @@ export function AddItem({
     setAnswerUsed(null);
     setAnswerMemory(null);
 
-    if (aiAvailable()) {
-      setIdentifying(true);
-      try {
-        const result = await identifyItem(small);
-        if (result) {
-          setIdea(result);
-          setName(result.name);
-          setCategory(result.category);
-        }
-      } catch {
-        showToast("Couldn't identify the photo — you can name it yourself.");
-      } finally {
-        setIdentifying(false);
+    setIdentifying(true);
+    try {
+      const result = await identifyItem(small);
+      if (result) {
+        setIdea(result);
+        setName(result.name);
+        setCategory(result.category);
       }
+    } catch {
+      // Both identifiers unavailable — manual naming takes over silently.
+    } finally {
+      setIdentifying(false);
     }
   }
 

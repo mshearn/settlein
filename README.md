@@ -23,10 +23,13 @@ offline (service worker caches the app shell; all data lives on-device).
 - **Room-by-room inventory** — dashboard with progress card and room list.
 - **Photo capture** — opens the device camera via the file-input capture API;
   photos are downscaled and stored locally in IndexedDB.
-- **Automatic identification** — optionally set an Anthropic API key in
-  Settings and each photo gets a suggested name, category, and a
-  marketplace-ready description (Claude vision + structured output). Without
-  a key everything works manually.
+- **Automatic identification** — free and on-device by default: a
+  Transformers.js image classifier (ViT, ~25MB, downloaded once and cached)
+  suggests a name and category for each photo with no account or per-use
+  cost, and works offline after the first use. Optionally set an Anthropic
+  API key in Settings for richer names plus marketplace-ready descriptions
+  (Claude vision + structured output). If both are unavailable, manual
+  naming takes over.
 - **Voice notes** — Web Speech API; use the transcript as the item name or
   attach it as a note. Falls back to typing.
 - **Decision support** — "Not sure? Help me decide" asks the PRD's two
@@ -58,3 +61,14 @@ palette.
 - The Family Claim Board is currently device-local (hand the phone over, or
   share the text list). A real-time shared web link would need a small
   backend — the natural next step.
+
+## Future extensions (considered, not yet built)
+
+- **Family-funded proxy**: a tiny Cloudflare Worker (free tier) holding one
+  family member's Anthropic API key server-side. Everyone's app would call
+  the worker, so seniors get full-quality identification with zero setup and
+  no key handling; the family member pays a few dollars total. Would slot in
+  as a third branch in `src/ai.ts` (`identifyItem`).
+- **Gemini free tier**: swap/add Google's Gemini API (free tier, no credit
+  card) as the cloud identifier for families who'd rather not pay at all but
+  are okay creating a Google AI Studio key and pasting it into Settings.
