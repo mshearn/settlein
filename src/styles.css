@@ -1,0 +1,688 @@
+/* SettleIn — design tokens from the "simplified" PRD mock */
+:root {
+  --bg: #f6f2ea;
+  --card: #ffffff;
+  --border: #e7e1d4;
+  --text: #2b2620;
+  --muted: #5f5749;
+  --green: #2f5d45;
+  --green-dark: #234634;
+  --green-soft: #e4ede7;
+  --gold: #e0af3c;
+  --gold-dark: #5c460d;
+  --gold-soft: #faf0d7;
+  --gift: #a14d2e;
+  --gift-soft: #f7e6dd;
+  --sell: #2e5274;
+  --sell-soft: #e2ebf3;
+  --blue-card: #eaf1fa;
+  --blue-text: #1d3c63;
+  --radius: 16px;
+  --shadow: 0 1px 3px rgba(43, 38, 32, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* PRD guardrail: minimum 18px base font */
+  font-size: 18px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  max-width: 540px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+  /* PRD guardrail: 48px minimum tap target */
+  min-height: 48px;
+  min-width: 48px;
+  border-radius: 12px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--sell);
+  outline-offset: 2px;
+}
+
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* ---------- Layout ---------- */
+.screen {
+  flex: 1;
+  padding: 20px 20px 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.screen-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+}
+
+.screen-header h2 {
+  font-size: 1.45rem;
+  flex: 1;
+}
+
+.brand {
+  text-align: center;
+  padding-top: 16px;
+}
+
+.brand h1 {
+  font-size: 2rem;
+  color: var(--green-dark);
+}
+
+.brand p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.hero-card {
+  text-align: center;
+  padding: 26px 18px;
+}
+
+.hero-star {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  border: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+
+.hero-card h2 {
+  font-size: 1.5rem;
+}
+
+.hero-card .hero-sub {
+  margin: 8px 0 0;
+  color: var(--green);
+  font-weight: 600;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  margin-top: 8px;
+}
+
+/* ---------- Room list ---------- */
+.room-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  padding: 16px 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.room-emoji {
+  font-size: 1.6rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--green-soft);
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.room-card .room-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.room-card .room-status {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.room-card .room-count {
+  margin-left: auto;
+  text-align: right;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+.room-card .room-count strong {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--text);
+}
+
+.chevron {
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.btn-primary {
+  background: var(--green);
+  color: #fff;
+}
+
+.btn-primary:active {
+  background: var(--green-dark);
+}
+
+.btn-secondary {
+  background: var(--card);
+  border: 2px solid var(--green);
+  color: var(--green);
+}
+
+.btn-quiet {
+  color: var(--green);
+  font-weight: 600;
+  text-decoration: underline;
+  width: auto;
+  margin: 0 auto;
+}
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-row .btn {
+  flex: 1;
+}
+
+/* Disposition buttons */
+.disposition-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.btn-disposition {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 16px 10px;
+  border-radius: 18px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  min-height: 72px;
+}
+
+.btn-disposition span.hint {
+  font-weight: 400;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.btn-keep {
+  background: var(--green);
+  color: #fff;
+}
+.btn-donate {
+  background: var(--gold);
+  color: #2b2003;
+}
+.btn-gift {
+  background: var(--gift);
+  color: #fff;
+}
+.btn-sell {
+  background: var(--sell);
+  color: #fff;
+}
+
+/* ---------- Badges ---------- */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.badge-keep {
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+.badge-donate {
+  background: var(--gold-soft);
+  color: var(--gold-dark);
+}
+.badge-gift {
+  background: var(--gift-soft);
+  color: var(--gift);
+}
+.badge-sell {
+  background: var(--sell-soft);
+  color: var(--sell);
+}
+
+/* ---------- Item rows ---------- */
+.item-card {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 12px;
+}
+
+.item-thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: var(--green-soft);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+}
+
+.item-card .item-name {
+  font-weight: 700;
+}
+
+.item-card .item-sub {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------- Add item flow ---------- */
+.photo-frame {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  object-fit: cover;
+  background: var(--green-soft);
+  border: 1px solid var(--border);
+}
+
+.capture-zone {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  border: 2px dashed var(--green);
+  background: var(--green-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--green-dark);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.capture-zone .camera-icon {
+  font-size: 3rem;
+}
+
+.ai-card {
+  background: var(--blue-card);
+  border: 1px solid #c9d9ee;
+  border-radius: var(--radius);
+  padding: 16px;
+  color: var(--blue-text);
+}
+
+.ai-card .ai-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.ai-card h3 {
+  font-size: 1.3rem;
+  margin: 4px 0 2px;
+  font-family: inherit;
+}
+
+.ai-card .ai-category {
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.voice-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+}
+
+.voice-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--gift-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.voice-live {
+  background: var(--gift);
+  color: #fff;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+.text-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: #fff;
+  min-height: 48px;
+}
+
+.text-input:focus {
+  border-color: var(--green);
+}
+
+label.field-label {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ---------- Decision support ---------- */
+.decision-question {
+  text-align: center;
+  padding: 26px 18px;
+}
+
+.decision-question h3 {
+  font-size: 1.35rem;
+  margin-bottom: 18px;
+}
+
+.suggestion-card {
+  background: var(--green-soft);
+  border: 1px solid var(--green);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+}
+
+.suggestion-card p {
+  margin: 0 0 16px;
+  font-size: 1.05rem;
+}
+
+/* ---------- Bottom nav ---------- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 10;
+}
+
+.bottom-nav button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 4px 8px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 0;
+}
+
+.bottom-nav button .nav-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.bottom-nav button.active {
+  color: var(--green-dark);
+}
+
+.bottom-nav button.active .nav-icon {
+  transform: scale(1.1);
+}
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  bottom: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--green-dark);
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 20;
+  max-width: 90%;
+  text-align: center;
+}
+
+/* ---------- Misc ---------- */
+.empty-state {
+  text-align: center;
+  color: var(--muted);
+  padding: 30px 16px;
+}
+
+.empty-state .big {
+  font-size: 2.4rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.money {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.cash-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+}
+
+.check-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--green);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+}
+
+.check-circle.checked {
+  background: var(--green);
+}
+
+.done .item-name {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.price-input {
+  width: 110px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  font-size: 1rem;
+  min-height: 48px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 0.9rem;
+}
+
+.link-list a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  color: var(--sell);
+  font-weight: 600;
+}
+
+/* ---------- Print ---------- */
+.print-header,
+.price-tags {
+  display: none;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+  .bottom-nav,
+  .no-print,
+  .toast {
+    display: none !important;
+  }
+  .screen {
+    padding: 0;
+  }
+  .card,
+  .room-card {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+  .print-header {
+    display: block;
+    margin-bottom: 12px;
+  }
+  .price-tags {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .price-tag {
+    border: 2px dashed #999;
+    padding: 14px;
+    text-align: center;
+    break-inside: avoid;
+  }
+  .price-tag .tag-price {
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+}

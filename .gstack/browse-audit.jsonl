@@ -1,0 +1,34 @@
+{"ts":"2026-06-10T04:33:16.133Z","cmd":"viewport","args":"390x844","origin":"about:blank","durationMs":4,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:33:16.234Z","cmd":"goto","args":"http://localhost:4173","origin":"http://localhost:4173/","durationMs":34,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:33:16.302Z","cmd":"console","args":"--errors","origin":"http://localhost:4173/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:33:16.575Z","cmd":"screenshot","args":"/tmp/settlein-dashboard.png","origin":"http://localhost:4173/","durationMs":217,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:33:29.107Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/","durationMs":9,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:33:36.294Z","cmd":"click","args":"@e2","origin":"http://localhost:4173/","durationMs":33,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:33:36.351Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:33:45.212Z","cmd":"click","args":"@e2","origin":"http://localhost:4173/","durationMs":19,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:33:45.283Z","cmd":"screenshot","args":"/tmp/settlein-room.png","origin":"http://localhost:4173/","durationMs":16,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:33:45.339Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:33:52.464Z","cmd":"click","args":"@e2","origin":"http://localhost:4173/","durationMs":26,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:33:52.532Z","cmd":"screenshot","args":"/tmp/settlein-capture.png","origin":"http://localhost:4173/","durationMs":9,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:34:12.671Z","cmd":"upload","args":"input[type=file] /tmp/test-item.jpg","origin":"http://localhost:4173/","durationMs":8,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:34:13.820Z","cmd":"screenshot","args":"/tmp/settlein-review.png","origin":"http://localhost:4173/","durationMs":42,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:34:13.877Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:34:23.817Z","cmd":"fill","args":"@e3 Vintage Armchair","origin":"http://localhost:4173/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:34:23.872Z","cmd":"select","args":"@e4 Furniture","origin":"http://localhost:4173/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:34:23.927Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:34:33.202Z","cmd":"screenshot","args":"/tmp/settlein-review2.png","origin":"http://localhost:4173/","durationMs":42,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:34:33.278Z","cmd":"click","args":"@e18","origin":"http://localhost:4173/","durationMs":19,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:08.883Z","cmd":"click","args":"nav button:nth-child(4)","origin":"http://localhost:4173/","durationMs":35009,"status":"error","hasCookies":false,"mode":"launched","error":"click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav button:nth-child(4)')\u001b[22m\n"}
+{"ts":"2026-06-10T04:35:12.835Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:12.887Z","cmd":"console","args":"--errors","origin":"http://localhost:4173/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:23.963Z","cmd":"click","args":"@e1","origin":"http://localhost:4173/","durationMs":47,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:24.358Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:24.429Z","cmd":"click","args":"nav button:nth-of-type(4)","origin":"http://localhost:4173/","durationMs":17,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:24.847Z","cmd":"screenshot","args":"/tmp/settlein-sell.png","origin":"http://localhost:4173/","durationMs":19,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:43.159Z","cmd":"fill","args":"input.price-input 45","origin":"http://localhost:4173/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:43.220Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:43.294Z","cmd":"click","args":"button[aria-pressed]","origin":"http://localhost:4173/","durationMs":22,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:43.693Z","cmd":"snapshot","args":"-i","origin":"http://localhost:4173/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:52.174Z","cmd":"click","args":"@e3","origin":"http://localhost:4173/","durationMs":24,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:52.567Z","cmd":"text","args":"","origin":"http://localhost:4173/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-10T04:35:52.647Z","cmd":"screenshot","args":"/tmp/settlein-garage.png","origin":"http://localhost:4173/","durationMs":26,"status":"ok","hasCookies":false,"mode":"launched"}
