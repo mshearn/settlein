@@ -1,6 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Store } from "../App";
+import type { Item } from "../types";
 import { PhotoImg } from "../components/PhotoImg";
+import {
+  claimRemote,
+  claimsConfigured,
+  fetchBoard,
+  getStoredBoard,
+  shareGiftBoard,
+  unclaimRemote,
+} from "../claims";
 
 export function GiftView({
   store,
@@ -11,15 +20,85 @@ export function GiftView({
 }) {
   const [claiming, setClaiming] = useState<string | null>(null);
   const [claimName, setClaimName] = useState("");
+  const [sharing, setSharing] = useState(false);
 
   const items = store.items.filter((i) => i.disposition === "gift");
   const claimed = items.filter((i) => i.claimedBy);
+  const board = getStoredBoard();
+
+  // Pull family claims from the shared board whenever this screen opens.
+  useEffect(() => {
+    if (!claimsConfigured() || !board) return;
+    let cancelled = false;
+    fetchBoard(board.id)
+      .then(async (remote) => {
+        if (!remote || cancelled) return;
+        for (const bi of remote.items) {
+          const local = store.items.find((i) => i.id === bi.id);
+          if (local && bi.claimedBy && local.claimedBy !== bi.claimedBy) {
+            await store.updateItem(local.id, { claimedBy: bi.claimedBy });
+          }
+        }
+      })
+      .catch(() => {
+        /* offline — local state is still authoritative for this device */
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function roomName(roomId: string): string {
     return store.rooms.find((r) => r.id === roomId)?.name ?? "";
   }
 
+  async function claimLocal(item: Item, name: string) {
+    await store.updateItem(item.id, { claimedBy: name });
+    showToast(`${item.name} claimed by ${name} 🎉`);
+    if (claimsConfigured() && board) {
+      claimRemote(board.id, item.id, name, board.token).catch(() => {});
+    }
+  }
+
+  async function unclaimLocal(item: Item) {
+    await store.updateItem(item.id, { claimedBy: undefined });
+    if (claimsConfigured() && board) {
+      unclaimRemote(board.id, item.id, board.token).catch(() => {});
+    }
+  }
+
   async function shareBoard() {
+    const intro =
+      "Pick what you'd like from my gift pile 🎁 Tap the link, then tap Claim on anything you'd like:";
+
+    if (claimsConfigured()) {
+      setSharing(true);
+      try {
+        const url = await shareGiftBoard(items);
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: "SettleIn — Family Claim Board",
+              text: intro,
+              url,
+            });
+            return;
+          } catch {
+            /* user cancelled the share sheet — fall through to clipboard */
+          }
+        }
+        await navigator.clipboard.writeText(`${intro}\n${url}`);
+        showToast("Link copied — paste it into a text or email");
+        return;
+      } catch {
+        showToast("Couldn't reach the sharing service — sending a text list instead.");
+      } finally {
+        setSharing(false);
+      }
+    }
+
+    // Fallback: plain text list (also used when no worker is configured).
     const lines = items.map(
       (i) =>
         `• ${i.name}${i.claimedBy ? ` — claimed by ${i.claimedBy}` : " — available"}`,
@@ -57,8 +136,10 @@ export function GiftView({
       ) : (
         <>
           <p className="muted small" style={{ margin: 0 }}>
-            {claimed.length} of {items.length} claimed. Hand the phone to a family
-            member, or share the list.
+            {claimed.length} of {items.length} claimed.{" "}
+            {board
+              ? "Family claims from the shared link appear here automatically."
+              : "Hand the phone to a family member, or share the link below."}
           </p>
 
           {items.map((item) => (
@@ -82,7 +163,7 @@ export function GiftView({
                 <button
                   className="no-print"
                   aria-label={`Unclaim ${item.name}`}
-                  onClick={() => store.updateItem(item.id, { claimedBy: undefined })}
+                  onClick={() => unclaimLocal(item)}
                 >
                   ↩︎
                 </button>
@@ -119,11 +200,8 @@ export function GiftView({
                       className="btn btn-primary"
                       disabled={!claimName.trim()}
                       onClick={async () => {
-                        await store.updateItem(item.id, {
-                          claimedBy: claimName.trim(),
-                        });
+                        await claimLocal(item, claimName.trim());
                         setClaiming(null);
-                        showToast(`${item.name} claimed by ${claimName.trim()} 🎉`);
                       }}
                     >
                       Claim it
@@ -134,8 +212,16 @@ export function GiftView({
             </div>
           ))}
 
-          <button className="btn btn-primary no-print" onClick={shareBoard}>
-            💬 Share with family
+          <button
+            className="btn btn-primary no-print"
+            onClick={shareBoard}
+            disabled={sharing}
+          >
+            {sharing
+              ? "Preparing the link…"
+              : board
+                ? "💬 Share / update family link"
+                : "💬 Share with family"}
           </button>
           {claimed.length > 0 && (
             <button

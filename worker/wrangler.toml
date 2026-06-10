@@ -1,0 +1,8 @@
+name = "settlein-claims"
+main = "src/index.js"
+compatibility_date = "2026-06-01"
+
+# Fill in after: npx wrangler kv namespace create BOARDS
+[[kv_namespaces]]
+binding = "BOARDS"
+id = "KV_NAMESPACE_ID"

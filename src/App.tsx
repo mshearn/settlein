@@ -9,6 +9,11 @@ import { DonateView } from "./screens/DonateView";
 import { GiftView } from "./screens/GiftView";
 import { SellView } from "./screens/SellView";
 import { Settings } from "./screens/Settings";
+import { ClaimBoard } from "./screens/ClaimBoard";
+
+// A #board/<id> link is the public family claim board — a standalone page
+// that never touches the local inventory.
+const BOARD_LINK = window.location.hash.match(/^#board\/([0-9a-f]{32})/)?.[1];
 
 export type Tab = "home" | "donate" | "gift" | "sell";
 
@@ -32,6 +37,11 @@ export interface Store {
 }
 
 export default function App() {
+  if (BOARD_LINK) return <ClaimBoard boardId={BOARD_LINK} />;
+  return <LocalApp />;
+}
+
+function LocalApp() {
   const [route, setRoute] = useState<Route>({ screen: "home" });
   const [rooms, setRooms] = useState<Room[]>([]);
   const [items, setItems] = useState<Item[]>([]);
