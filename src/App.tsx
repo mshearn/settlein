@@ -10,17 +10,20 @@ import { GiftView } from "./screens/GiftView";
 import { SellView } from "./screens/SellView";
 import { Settings } from "./screens/Settings";
 import { ClaimBoard } from "./screens/ClaimBoard";
+import { MoveView } from "./screens/MoveView";
+import { stagedMoveEnabled } from "./prefs";
 
 // A #board/<id> link is the public family claim board — a standalone page
 // that never touches the local inventory.
 const BOARD_LINK = window.location.hash.match(/^#board\/([0-9a-f]{32})/)?.[1];
 
-export type Tab = "home" | "donate" | "gift" | "sell";
+export type Tab = "home" | "move" | "donate" | "gift" | "sell";
 
 export type Route =
   | { screen: "home" }
   | { screen: "room"; roomId: string }
   | { screen: "add"; roomId: string }
+  | { screen: "move" }
   | { screen: "donate" }
   | { screen: "gift" }
   | { screen: "sell" }
@@ -95,9 +98,17 @@ function LocalApp() {
   };
 
   const activeTab: Tab =
-    route.screen === "donate" || route.screen === "gift" || route.screen === "sell"
+    route.screen === "move" ||
+    route.screen === "donate" ||
+    route.screen === "gift" ||
+    route.screen === "sell"
       ? route.screen
       : "home";
+
+  // The Move Now tab shows in staged-move mode, and stays visible if any
+  // move items exist even after the mode is turned off (no orphaned data).
+  const showMove =
+    stagedMoveEnabled() || items.some((i) => i.disposition === "move");
 
   if (!loaded) {
     return (
@@ -140,6 +151,9 @@ function LocalApp() {
         />
       );
       break;
+    case "move":
+      screen = <MoveView store={store} />;
+      break;
     case "donate":
       screen = <DonateView store={store} navigate={navigate} />;
       break;
@@ -162,6 +176,7 @@ function LocalApp() {
       {!hideNav && (
         <BottomNav
           active={activeTab}
+          showMove={showMove}
           onSelect={(tab) =>
             navigate(tab === "home" ? { screen: "home" } : { screen: tab })
           }

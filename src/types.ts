@@ -1,4 +1,4 @@
-export type Disposition = "keep" | "donate" | "gift" | "sell";
+export type Disposition = "move" | "keep" | "donate" | "gift" | "sell";
 
 export interface Room {
   id: string;
@@ -28,6 +28,7 @@ export interface Item {
 }
 
 export const DISPOSITION_LABELS: Record<Disposition, string> = {
+  move: "Move Now",
   keep: "Keep",
   donate: "Donate",
   gift: "Gift",

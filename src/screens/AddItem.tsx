@@ -8,6 +8,7 @@ import { downscalePhoto } from "../photo";
 import { listen, speechSupported, type ListenHandle } from "../speech";
 import { newId } from "../db";
 import { PhotoImg } from "../components/PhotoImg";
+import { stagedMoveEnabled } from "../prefs";
 
 type Stage = "capture" | "review" | "decide";
 
@@ -24,6 +25,7 @@ export function AddItem({
 }) {
   const room = store.rooms.find((r) => r.id === roomId);
   const fileInput = useRef<HTMLInputElement>(null);
+  const staged = stagedMoveEnabled();
 
   const [stage, setStage] = useState<Stage>("capture");
   const [photo, setPhoto] = useState<Blob | null>(null);
@@ -142,6 +144,42 @@ export function AddItem({
           text="Does this item hold a special memory you want to protect?"
           onAnswer={setAnswerMemory}
         />
+      );
+    } else if (answerUsed && staged) {
+      // Staged move: it's coming with them — the real question is which trip.
+      content = (
+        <div className="suggestion-card">
+          <p>
+            It sounds like this item is still part of your life — it's coming
+            with you. Does it need to go in the first load, or can it wait
+            here until the house sells?
+          </p>
+          <button
+            className="btn-disposition btn-move"
+            style={{ width: "100%" }}
+            onClick={() => save("move")}
+          >
+            Move Now — first load
+          </button>
+          <button
+            className="btn-disposition btn-keep"
+            style={{ width: "100%", marginTop: 12 }}
+            onClick={() => save("keep")}
+          >
+            Keep — it can wait here
+          </button>
+          <button
+            className="btn-quiet"
+            style={{ marginTop: 12 }}
+            onClick={() => {
+              setAnswerUsed(null);
+              setAnswerMemory(null);
+              setStage("review");
+            }}
+          >
+            Let me choose myself
+          </button>
+        </div>
       );
     } else {
       let suggestion: { text: string; action: Disposition };
@@ -409,10 +447,22 @@ export function AddItem({
       )}
 
       <h2 className="section-title">What would you like to do?</h2>
+      {staged && (
+        <button
+          className="btn-disposition btn-move"
+          style={{ width: "100%", marginBottom: 12 }}
+          onClick={() => save("move")}
+        >
+          🚚 Move Now
+          <span className="hint">Essentials — first load to the new home</span>
+        </button>
+      )}
       <div className="disposition-grid">
         <button className="btn-disposition btn-keep" onClick={() => save("keep")}>
           Keep
-          <span className="hint">Coming with you</span>
+          <span className="hint">
+            {staged ? "Stays here until the house sells" : "Coming with you"}
+          </span>
         </button>
         <button className="btn-disposition btn-donate" onClick={() => save("donate")}>
           Donate

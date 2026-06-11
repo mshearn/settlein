@@ -2,8 +2,9 @@
 
 A gentle, room-by-room helper for seniors downsizing into a retirement
 community. Photograph each item, decide **Keep / Donate / Gift / Sell**, and
-let the app turn those decisions into actionable lists. Built from the
-Senior Downsizing Web App PRD, using the "simplified" UI mock.
+let the app turn those decisions into actionable lists — with a **Move Now**
+pile for staged moves where both homes overlap. Built from the Senior
+Downsizing Web App PRD, using the "simplified" UI mock.
 
 ## Running it
 
@@ -21,6 +22,13 @@ offline (service worker caches the app shell; all data lives on-device).
 ## Features
 
 - **Room-by-room inventory** — dashboard with progress card and room list.
+- **Staged moves ("Move Now")** — for families who'll have both homes for a
+  while (e.g. the new place is ready before the old house sells). A fifth
+  pile, **Move Now**, collects the essentials making the first trip; its tab
+  is a deliberately button-free, printable first-load inventory grouped by
+  room. **Keep** becomes the holding pile — things staying at the house until
+  it sells. On by default; Settings → "Moving in stages" turns it off for a
+  simpler single-move experience (existing Move Now items stay visible).
 - **Photo capture** — opens the device camera via the file-input capture API;
   photos are downscaled and stored locally in IndexedDB.
 - **Automatic identification** — free and on-device by default: a

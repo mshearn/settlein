@@ -13,6 +13,8 @@
   --gold-soft: #faf0d7;
   --gift: #a14d2e;
   --gift-soft: #f7e6dd;
+  --move: #5d4a7e;
+  --move-soft: #ece6f4;
   --sell: #2e5274;
   --sell-soft: #e2ebf3;
   --blue-card: #eaf1fa;
@@ -290,6 +292,10 @@ textarea {
   opacity: 0.85;
 }
 
+.btn-move {
+  background: var(--move);
+  color: #fff;
+}
 .btn-keep {
   background: var(--green);
   color: #fff;
@@ -316,6 +322,10 @@ textarea {
   font-weight: 700;
 }
 
+.badge-move {
+  background: var(--move-soft);
+  color: var(--move);
+}
 .badge-keep {
   background: var(--green-soft);
   color: var(--green-dark);

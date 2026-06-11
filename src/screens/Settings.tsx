@@ -3,6 +3,7 @@ import type { Route } from "../App";
 import { getApiKey, setApiKey } from "../ai";
 import { clearAllData } from "../db";
 import { deleteSharedBoard, getStoredBoard } from "../claims";
+import { setStagedMove, stagedMoveEnabled } from "../prefs";
 
 export function Settings({
   navigate,
@@ -12,6 +13,7 @@ export function Settings({
   showToast: (m: string) => void;
 }) {
   const [key, setKey] = useState(getApiKey());
+  const [staged, setStaged] = useState(stagedMoveEnabled());
   const [confirmingErase, setConfirmingErase] = useState(false);
   const [erasing, setErasing] = useState(false);
 
@@ -75,6 +77,33 @@ export function Settings({
           }}
         >
           Save
+        </button>
+      </div>
+
+      <div className="card">
+        <h3 style={{ fontFamily: "inherit", fontSize: "1.1rem" }}>
+          Moving in stages
+        </h3>
+        <p className="muted small">
+          For moves where you'll have both homes for a while: a{" "}
+          <strong>Move Now</strong> pile holds the essentials making the first
+          trip to the new place, and <strong>Keep</strong> holds everything
+          staying at this house until it sells.
+        </p>
+        <button
+          className="btn btn-secondary"
+          onClick={() => {
+            const next = !staged;
+            setStagedMove(next);
+            setStaged(next);
+            showToast(
+              next
+                ? "Move Now is on — find it in the bottom menu."
+                : "Move Now is off — items already in that pile stay visible.",
+            );
+          }}
+        >
+          {staged ? "On — tap to turn off" : "Off — tap to turn on"}
         </button>
       </div>
 

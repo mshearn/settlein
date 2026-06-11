@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Route, Store } from "../App";
 import { DISPOSITION_LABELS, type Disposition } from "../types";
 import { PhotoImg } from "../components/PhotoImg";
+import { stagedMoveEnabled } from "../prefs";
 
 export function RoomView({
   store,
@@ -70,7 +71,14 @@ export function RoomView({
                 Move this item to a different pile:
               </p>
               <div className="disposition-grid">
-                {(Object.keys(DISPOSITION_LABELS) as Disposition[]).map((d) => (
+                {(Object.keys(DISPOSITION_LABELS) as Disposition[])
+                  .filter(
+                    (d) =>
+                      d !== "move" ||
+                      stagedMoveEnabled() ||
+                      item.disposition === "move",
+                  )
+                  .map((d) => (
                   <button
                     key={d}
                     className={`btn-disposition btn-${d}`}
@@ -83,7 +91,7 @@ export function RoomView({
                   >
                     {DISPOSITION_LABELS[d]}
                   </button>
-                ))}
+                  ))}
               </div>
               <button
                 className="btn-quiet"
