@@ -35,6 +35,7 @@ export function AddItem({
   const [category, setCategory] = useState<string>("Other");
   const [note, setNote] = useState("");
   const [editingName, setEditingName] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
 
   // Voice note state
   const [listening, setListening] = useState(false);
@@ -67,6 +68,7 @@ export function AddItem({
     setCategory("Other");
     setNote("");
     setEditingName(false);
+    setConfirmed(false);
     setAnswerUsed(null);
     setAnswerMemory(null);
 
@@ -333,9 +335,11 @@ export function AddItem({
         <div className="ai-label">
           {identifying
             ? "One moment — taking a look…"
-            : idea
-              ? "We think this is:"
-              : "What is this item?"}
+            : confirmed
+              ? "Your item:"
+              : idea
+                ? "We think this is:"
+                : "What is this item?"}
         </div>
         {identifying ? (
           <h3>🔍 Looking at your photo…</h3>
@@ -368,7 +372,10 @@ export function AddItem({
               <button
                 className="btn btn-primary"
                 style={{ marginTop: 10 }}
-                onClick={() => setEditingName(false)}
+                onClick={() => {
+                  setEditingName(false);
+                  setConfirmed(true);
+                }}
                 disabled={!name.trim()}
               >
                 ✓ That's right
@@ -379,14 +386,32 @@ export function AddItem({
           <>
             <h3>{name}</h3>
             <div className="ai-category">📂 {category}</div>
-            <div className="btn-row">
-              <button className="btn btn-primary" onClick={() => setEditingName(false)}>
-                ✓ Looks right
-              </button>
-              <button className="btn btn-secondary" onClick={() => setEditingName(true)}>
-                Edit name
-              </button>
-            </div>
+            {confirmed ? (
+              <>
+                <p className="muted small" style={{ margin: "10px 0 0" }}>
+                  ✓ Confirmed — now choose what to do with it below.
+                </p>
+                <button
+                  className="btn-quiet"
+                  style={{ padding: "6px 0 0" }}
+                  onClick={() => {
+                    setConfirmed(false);
+                    setEditingName(true);
+                  }}
+                >
+                  Edit name
+                </button>
+              </>
+            ) : (
+              <div className="btn-row">
+                <button className="btn btn-primary" onClick={() => setConfirmed(true)}>
+                  ✓ Looks right
+                </button>
+                <button className="btn btn-secondary" onClick={() => setEditingName(true)}>
+                  Edit name
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>
