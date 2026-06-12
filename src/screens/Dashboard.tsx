@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Route, Store } from "../App";
 import { ROOM_SUGGESTIONS } from "../types";
+import { InstallHint } from "../components/InstallHint";
 
 function roomStatus(count: number): string {
   if (count === 0) return "Not started";
@@ -84,6 +85,8 @@ export function Dashboard({
           </>
         )}
       </section>
+
+      <InstallHint />
 
       <h2 className="section-title">Your Rooms</h2>
 

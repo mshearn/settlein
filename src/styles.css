@@ -343,6 +343,26 @@ textarea {
   color: var(--sell);
 }
 
+/* ---------- iOS install hint ---------- */
+.install-hint {
+  background: var(--blue-card);
+  color: var(--blue-text);
+  border: 1px solid #cfdcec;
+}
+
+.install-hint ol {
+  margin: 8px 0 12px;
+  padding-left: 24px;
+}
+
+.install-hint li {
+  margin: 8px 0;
+}
+
+.install-hint .btn-quiet {
+  color: var(--blue-text);
+}
+
 /* ---------- Item rows ---------- */
 .item-card {
   display: flex;
