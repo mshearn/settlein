@@ -155,7 +155,9 @@ function LocalApp() {
       screen = <MoveView store={store} />;
       break;
     case "donate":
-      screen = <DonateView store={store} navigate={navigate} />;
+      screen = (
+        <DonateView store={store} navigate={navigate} showToast={showToast} />
+      );
       break;
     case "gift":
       screen = <GiftView store={store} showToast={showToast} />;

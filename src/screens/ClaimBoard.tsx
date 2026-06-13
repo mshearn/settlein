@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
-import { claimRemote, fetchBoard, type BoardItem } from "../claims";
+import {
+  claimRemote,
+  fetchBoard,
+  type BoardItem,
+  type BoardKind,
+} from "../claims";
 
 /**
- * The public, family-facing page reached via the shared #board/<id> link.
- * Read-only view of the Gift pile; anyone with the link can claim an item.
+ * The public page reached via the shared #board/<id> link. Gift boards let
+ * family members claim items; donate boards are a review-only list with
+ * photos for a charity to look over.
  */
 export function ClaimBoard({ boardId }: { boardId: string }) {
   const [items, setItems] = useState<BoardItem[] | null>(null);
+  const [kind, setKind] = useState<BoardKind>("gift");
   const [failed, setFailed] = useState(false);
   const [claiming, setClaiming] = useState<string | null>(null);
   const [claimName, setClaimName] = useState(
@@ -16,7 +23,11 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
 
   useEffect(() => {
     fetchBoard(boardId).then(
-      (board) => (board ? setItems(board.items) : setFailed(true)),
+      (board) => {
+        if (!board) return setFailed(true);
+        setKind(board.kind ?? "gift");
+        setItems(board.items);
+      },
       () => setFailed(true),
     );
   }, [boardId]);
@@ -50,14 +61,14 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
       <main className="screen">
         <div className="brand">
           <h1>SettleIn</h1>
-          <p>Family Claim Board</p>
+          <p>Shared List</p>
         </div>
         <div className="empty-state">
           <span className="big" aria-hidden="true">
             🔗
           </span>
-          This link isn't working — it may have expired. Ask your family
-          member to share a fresh one from their SettleIn app.
+          This link isn't working — it may have expired. Ask the person who
+          sent it to share a fresh one from their SettleIn app.
         </div>
       </main>
     );
@@ -68,7 +79,7 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
       <main className="screen" aria-busy="true">
         <div className="brand">
           <h1>SettleIn</h1>
-          <p>Loading the claim board…</p>
+          <p>Loading the shared list…</p>
         </div>
       </main>
     );
@@ -80,19 +91,31 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
     <main className="screen" style={{ paddingBottom: 24 }}>
       <div className="brand">
         <h1>SettleIn</h1>
-        <p>Family Claim Board</p>
+        <p>{kind === "donate" ? "Donation List" : "Family Claim Board"}</p>
       </div>
 
       <section className="card hero-card">
         <div className="hero-star" aria-hidden="true">
-          🎁
+          {kind === "donate" ? "🤲" : "🎁"}
         </div>
-        <h2>These pieces are looking for a new home</h2>
-        <p className="hero-sub">
-          {available === 0
-            ? "Everything has been claimed!"
-            : `${available} of ${items.length} still available — tap Claim on anything you'd like.`}
-        </p>
+        {kind === "donate" ? (
+          <>
+            <h2>We'd like to donate these items</h2>
+            <p className="hero-sub">
+              {items.length} {items.length === 1 ? "item" : "items"} with
+              photos and details below, for your review.
+            </p>
+          </>
+        ) : (
+          <>
+            <h2>These pieces are looking for a new home</h2>
+            <p className="hero-sub">
+              {available === 0
+                ? "Everything has been claimed!"
+                : `${available} of ${items.length} still available — tap Claim on anything you'd like.`}
+            </p>
+          </>
+        )}
       </section>
 
       {items.map((item) => (
@@ -108,13 +131,16 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
             <div className="item-name">{item.name}</div>
             <div className="item-sub">{item.category}</div>
             {item.note && <div className="item-sub">📝 {item.note}</div>}
-            {item.claimedBy ? (
-              <span className="badge badge-gift">Claimed by {item.claimedBy}</span>
-            ) : (
-              <span className="badge badge-keep">Available</span>
-            )}
+            {kind !== "donate" &&
+              (item.claimedBy ? (
+                <span className="badge badge-gift">
+                  Claimed by {item.claimedBy}
+                </span>
+              ) : (
+                <span className="badge badge-keep">Available</span>
+              ))}
           </div>
-          {!item.claimedBy && (
+          {kind !== "donate" && !item.claimedBy && (
             <button
               className="btn btn-secondary"
               style={{ width: "auto", padding: "8px 18px" }}

@@ -1,13 +1,15 @@
 /**
  * SettleIn claim-board API — a Cloudflare Worker backed by KV.
  *
- * A "board" is a snapshot of the Gift pile: items with downscaled photos.
+ * A "board" is a snapshot of a pile: items with downscaled photos.
+ * kind "gift" (default) is the family claim board; kind "donate" is a
+ * review-only list shared with a charity (claims simply aren't used).
  * The senior's device creates/updates a board and keeps an owner token;
- * anyone with the (unguessable) board link can view it and claim items.
+ * anyone with the (unguessable) board link can view it.
  *
  * Routes:
- *   POST /board                 {items}            → {id, token}
- *   GET  /board/:id                                → {items, updatedAt}
+ *   POST /board                 {items, kind?}     → {id, token}
+ *   GET  /board/:id                                → {items, updatedAt, kind}
  *   PUT  /board/:id             {items}  + token   → {ok}   (claims preserved by caller)
  *   POST /board/:id/claim       {itemId, name}     → {ok, claimedBy} | 409 {claimedBy}
  *   POST /board/:id/unclaim     {itemId} + token   → {ok}
@@ -91,6 +93,7 @@ export default {
         const body = await readBody(request);
         const board = {
           token: randomHex(16),
+          kind: body.kind === "donate" ? "donate" : "gift",
           items: sanitizeItems(body.items),
           updatedAt: Date.now(),
         };
@@ -108,7 +111,11 @@ export default {
 
       // GET /board/:id — public read
       if (parts.length === 2 && request.method === "GET") {
-        return json({ items: board.items, updatedAt: board.updatedAt });
+        return json({
+          items: board.items,
+          updatedAt: board.updatedAt,
+          kind: board.kind ?? "gift",
+        });
       }
 
       // PUT /board/:id — owner replaces the item list

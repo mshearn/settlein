@@ -44,7 +44,11 @@ offline (service worker caches the app shell; all data lives on-device).
   reflective questions and suggests a path (including the
   photograph-the-memory-and-gift-the-item suggestion).
 - **Donate** — checklist of donate items, donation-center map search,
-  home-pickup links, printable checklist.
+  home-pickup links, printable checklist. Send the list to a charity two
+  ways: a private review-only web link with photos (same Worker as the
+  claim board, `kind: "donate"`, no claim buttons), or an on-device
+  generated PDF (jsPDF, lazy-loaded) handed to the share sheet — on a phone
+  it attaches straight into an email; on desktop it downloads.
 - **Gift** — Family Claim Board: "Share with family" creates a private web
   link (sent via SMS/email) where family members see item photos and tap
   Claim; claims sync back to the senior's app automatically. In-person
@@ -73,9 +77,10 @@ palette.
 - All data (rooms, items, photos) is local-first in IndexedDB (`idb`). The
   only network call is the optional photo-identification request to the
   Anthropic API (`claude-opus-4-8`, key stored in localStorage).
-- The Family Claim Board's shared link is backed by a small Cloudflare
-  Worker + KV (`worker/`, deployed at
-  `https://settlein-claims.mshearn.workers.dev`). Boards use unguessable
+- The Family Claim Board's shared link — and the Donate list's charity
+  link — are backed by a small Cloudflare Worker + KV (`worker/`, deployed
+  at `https://settlein-claims.mshearn.workers.dev`). Boards carry a `kind`
+  ("gift" with claiming, "donate" review-only). Boards use unguessable
   128-bit IDs, mutations require an owner token held only by the sharing
   device, photos are downscaled before upload, and boards expire 90 days
   after the last activity. Claims may take up to a minute to propagate (KV

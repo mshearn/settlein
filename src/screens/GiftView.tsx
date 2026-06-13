@@ -8,7 +8,7 @@ import {
   deleteSharedBoard,
   fetchBoard,
   getStoredBoard,
-  shareGiftBoard,
+  shareBoard as shareBoardRemote,
   unclaimRemote,
 } from "../claims";
 
@@ -22,13 +22,13 @@ export function GiftView({
   const [claiming, setClaiming] = useState<string | null>(null);
   const [claimName, setClaimName] = useState("");
   const [sharing, setSharing] = useState(false);
-  const [board, setBoard] = useState(getStoredBoard());
+  const [board, setBoard] = useState(getStoredBoard("gift"));
 
   const items = store.items.filter((i) => i.disposition === "gift");
   const claimed = items.filter((i) => i.claimedBy);
 
   async function stopSharing() {
-    await deleteSharedBoard();
+    await deleteSharedBoard("gift");
     setBoard(null);
     showToast("Sharing is off — the family link no longer works.");
   }
@@ -82,8 +82,8 @@ export function GiftView({
     if (claimsConfigured()) {
       setSharing(true);
       try {
-        const url = await shareGiftBoard(items);
-        setBoard(getStoredBoard());
+        const url = await shareBoardRemote(items, "gift");
+        setBoard(getStoredBoard("gift"));
         if (navigator.share) {
           try {
             await navigator.share({

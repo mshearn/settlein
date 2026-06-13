@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { Route } from "../App";
 import { getApiKey, setApiKey } from "../ai";
 import { clearAllData } from "../db";
-import { deleteSharedBoard, getStoredBoard } from "../claims";
+import { deleteAllSharedBoards, getStoredBoard } from "../claims";
 import { setStagedMove, stagedMoveEnabled } from "../prefs";
 
 export function Settings({
@@ -19,8 +19,8 @@ export function Settings({
 
   async function eraseEverything() {
     setErasing(true);
-    // Revoke the shared family link first so the photos don't outlive the data.
-    await deleteSharedBoard();
+    // Revoke any shared links first so the photos don't outlive the data.
+    await deleteAllSharedBoards();
     await clearAllData();
     // A clean reload is the simplest honest reset of all in-memory state.
     window.location.reload();
@@ -113,7 +113,9 @@ export function Settings({
         </h3>
         <p className="muted small">
           Erase every room, item, and photo from this device
-          {getStoredBoard() ? ", and turn off the shared family link" : ""}.
+          {getStoredBoard("gift") || getStoredBoard("donate")
+            ? ", and turn off any shared links"
+            : ""}.
           Useful after testing, or when helping someone else start fresh.
         </p>
         {confirmingErase ? (

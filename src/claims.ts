@@ -23,15 +23,22 @@ export interface StoredBoard {
   token: string;
 }
 
-const BOARD_KEY = "settlein-board";
+/** "gift" = family claim board; "donate" = review-only list for a charity. */
+export type BoardKind = "gift" | "donate";
+
+// "settlein-board" predates donate boards — kept for existing gift shares.
+const BOARD_KEYS: Record<BoardKind, string> = {
+  gift: "settlein-board",
+  donate: "settlein-donate-board",
+};
 
 export function claimsConfigured(): boolean {
   return CLAIMS_API.length > 0;
 }
 
-export function getStoredBoard(): StoredBoard | null {
+export function getStoredBoard(kind: BoardKind): StoredBoard | null {
   try {
-    const raw = localStorage.getItem(BOARD_KEY);
+    const raw = localStorage.getItem(BOARD_KEYS[kind]);
     return raw ? (JSON.parse(raw) as StoredBoard) : null;
   } catch {
     return null;
@@ -67,12 +74,16 @@ async function toBoardItems(items: Item[]): Promise<BoardItem[]> {
 }
 
 /**
- * Create the shared board, or update it if one already exists.
- * Returns the public link to send to family.
+ * Create the shared board of the given kind, or update it if one already
+ * exists. Returns the public link to send to family (gift) or a charity
+ * (donate).
  */
-export async function shareGiftBoard(items: Item[]): Promise<string> {
+export async function shareBoard(
+  items: Item[],
+  kind: BoardKind,
+): Promise<string> {
   const boardItems = await toBoardItems(items);
-  const stored = getStoredBoard();
+  const stored = getStoredBoard(kind);
 
   if (stored) {
     const res = await fetch(`${CLAIMS_API}/board/${stored.id}`, {
@@ -93,17 +104,17 @@ export async function shareGiftBoard(items: Item[]): Promise<string> {
   const res = await fetch(`${CLAIMS_API}/board`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items: boardItems }),
+    body: JSON.stringify({ items: boardItems, kind }),
   });
   if (!res.ok) throw new Error("create failed");
   const { id, token } = (await res.json()) as { id: string; token: string };
-  localStorage.setItem(BOARD_KEY, JSON.stringify({ id, token }));
+  localStorage.setItem(BOARD_KEYS[kind], JSON.stringify({ id, token }));
   return boardUrl(id);
 }
 
 export async function fetchBoard(
   id: string,
-): Promise<{ items: BoardItem[]; updatedAt: number } | null> {
+): Promise<{ items: BoardItem[]; updatedAt: number; kind?: BoardKind } | null> {
   const res = await fetch(`${CLAIMS_API}/board/${id}`);
   if (!res.ok) return null;
   return res.json();
@@ -130,12 +141,12 @@ export async function claimRemote(
 }
 
 /**
- * Revoke the shared family link: delete the remote board and forget it
- * locally. Safe to call when nothing is shared. The local copy is removed
- * even if the server is unreachable — the board still expires on its own.
+ * Revoke a shared link: delete the remote board and forget it locally.
+ * Safe to call when nothing is shared. The local copy is removed even if
+ * the server is unreachable — the board still expires on its own.
  */
-export async function deleteSharedBoard(): Promise<void> {
-  const stored = getStoredBoard();
+export async function deleteSharedBoard(kind: BoardKind): Promise<void> {
+  const stored = getStoredBoard(kind);
   if (!stored) return;
   try {
     if (claimsConfigured()) {
@@ -145,8 +156,13 @@ export async function deleteSharedBoard(): Promise<void> {
       });
     }
   } finally {
-    localStorage.removeItem(BOARD_KEY);
+    localStorage.removeItem(BOARD_KEYS[kind]);
   }
+}
+
+/** Revoke every shared link this device owns (used by "Erase everything"). */
+export async function deleteAllSharedBoards(): Promise<void> {
+  await Promise.all([deleteSharedBoard("gift"), deleteSharedBoard("donate")]);
 }
 
 export async function unclaimRemote(
