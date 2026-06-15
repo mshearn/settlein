@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   claimRemote,
+  donateRemote,
   fetchBoard,
   type BoardItem,
   type BoardKind,
@@ -163,18 +164,46 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
                     </div>
                   )}
                 </>
+              ) : item.donateSuggested ? (
+                <span className="badge badge-donate">Going to donation</span>
               ) : (
                 <span className="badge badge-keep">Available</span>
               ))}
           </div>
-          {kind !== "donate" && !item.claimedBy && (
-            <button
-              className="btn btn-secondary"
-              style={{ width: "auto", padding: "8px 18px" }}
-              onClick={() => setClaiming(claiming === item.id ? null : item.id)}
-            >
-              Claim
-            </button>
+          {kind !== "donate" && !item.claimedBy && !item.donateSuggested && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
+              <button
+                className="btn btn-secondary"
+                style={{ width: "auto", padding: "8px 18px" }}
+                onClick={() => setClaiming(claiming === item.id ? null : item.id)}
+              >
+                Claim
+              </button>
+              <button
+                className="btn-quiet"
+                style={{ fontSize: "0.85rem" }}
+                onClick={async () => {
+                  const result = await donateRemote(boardId, item.id).catch(() => null);
+                  if (!result) {
+                    setMessage("Couldn't reach the board — please try again.");
+                    setTimeout(() => setMessage(null), 4000);
+                    return;
+                  }
+                  if (!result.ok) {
+                    setMessage(`Someone already claimed that one.`);
+                    setTimeout(() => setMessage(null), 4000);
+                    return;
+                  }
+                  setItems((prev) =>
+                    prev?.map((i) =>
+                      i.id === item.id ? { ...i, donateSuggested: true } : i,
+                    ) ?? null,
+                  );
+                }}
+              >
+                → Donate
+              </button>
+            </div>
           )}
           {claiming === item.id && (
             <div style={{ width: "100%" }}>

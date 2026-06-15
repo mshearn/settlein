@@ -12,6 +12,7 @@
  *   GET  /board/:id                                → {items, updatedAt, kind}
  *   PUT  /board/:id             {items}  + token   → {ok}   (claims preserved by caller)
  *   POST /board/:id/claim       {itemId, name}     → {ok, claimedBy} | 409 {claimedBy}
+ *   POST /board/:id/donate      {itemId}           → {ok} | 409 already claimed
  *   POST /board/:id/unclaim     {itemId} + token   → {ok}
  *   DELETE /board/:id                    + token   → {ok}  (revokes the shared link)
  */
@@ -62,6 +63,7 @@ function sanitizeItems(items) {
       note: cleanString(i.note, 500),
       claimedBy: i.claimedBy ? cleanString(i.claimedBy, 60) : null,
       claimNote: i.claimNote ? cleanString(i.claimNote, 300) : null,
+      donateSuggested: i.donateSuggested === true,
       photo,
     };
   });
@@ -149,9 +151,24 @@ export default {
         const claimNote = body.claimNote ? cleanString(body.claimNote, 300) : null;
         item.claimedBy = name;
         item.claimNote = claimNote;
+        item.donateSuggested = false;
         board.updatedAt = Date.now();
         await putBoard(env, id, board);
         return json({ ok: true, claimedBy: name, claimNote });
+      }
+
+      // POST /board/:id/donate — public; marks item for donation, first-wins like claim
+      if (parts[2] === "donate" && request.method === "POST") {
+        const body = await readBody(request);
+        const item = board.items.find((i) => i.id === body.itemId);
+        if (!item) return err(404, "item not found");
+        if (item.claimedBy && !isOwner) return err(409, "already claimed");
+        item.donateSuggested = true;
+        item.claimedBy = null;
+        item.claimNote = null;
+        board.updatedAt = Date.now();
+        await putBoard(env, id, board);
+        return json({ ok: true });
       }
 
       // POST /board/:id/unclaim — owner only

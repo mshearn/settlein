@@ -16,6 +16,7 @@ export interface BoardItem {
   note: string;
   claimedBy: string | null;
   claimNote: string | null;
+  donateSuggested: boolean;
   photo: string | null; // data URL
 }
 
@@ -68,6 +69,7 @@ async function toBoardItems(items: Item[]): Promise<BoardItem[]> {
       note: i.note,
       claimedBy: i.claimedBy ?? null,
       claimNote: i.claimNote ?? null,
+      donateSuggested: false, // not stored locally; only relevant on the shared board
       photo: i.photo
         ? await blobToDataUrl(await downscalePhoto(i.photo, 640, 0.7))
         : null,
@@ -166,6 +168,21 @@ export async function deleteSharedBoard(kind: BoardKind): Promise<void> {
 /** Revoke every shared link this device owns (used by "Erase everything"). */
 export async function deleteAllSharedBoards(): Promise<void> {
   await Promise.all([deleteSharedBoard("gift"), deleteSharedBoard("donate")]);
+}
+
+/** Mark an item as going to donation instead of being claimed. */
+export async function donateRemote(
+  boardId: string,
+  itemId: string,
+): Promise<{ ok: boolean; alreadyClaimed: boolean }> {
+  const res = await fetch(`${CLAIMS_API}/board/${boardId}/donate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ itemId }),
+  });
+  if (res.status === 409) return { ok: false, alreadyClaimed: true };
+  if (!res.ok) throw new Error("donate failed");
+  return { ok: true, alreadyClaimed: false };
 }
 
 export async function unclaimRemote(

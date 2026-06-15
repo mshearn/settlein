@@ -43,13 +43,15 @@ export function GiftView({
         for (const bi of remote.items) {
           const local = store.items.find((i) => i.id === bi.id);
           if (!local) continue;
-          const claimedByChanged = bi.claimedBy && local.claimedBy !== bi.claimedBy;
-          const claimNoteChanged = bi.claimNote !== (local.claimNote ?? null);
-          if (claimedByChanged || (bi.claimedBy && claimNoteChanged)) {
+          if (bi.donateSuggested && local.disposition === "gift") {
+            await store.updateItem(local.id, { disposition: "donate" });
+          } else if (bi.claimedBy && local.claimedBy !== bi.claimedBy) {
             await store.updateItem(local.id, {
               claimedBy: bi.claimedBy ?? undefined,
               claimNote: bi.claimNote ?? undefined,
             });
+          } else if (bi.claimedBy && bi.claimNote !== (local.claimNote ?? null)) {
+            await store.updateItem(local.id, { claimNote: bi.claimNote ?? undefined });
           }
         }
       })
