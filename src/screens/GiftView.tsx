@@ -152,7 +152,7 @@ export function GiftView({
 
           {items.map((item) => (
             <div key={item.id} className="card item-card" style={{ flexWrap: "wrap" }}>
-              <PhotoImg blob={item.photo} alt={item.name} className="item-thumb" />
+              <PhotoImg blob={item.photo} alt={item.name} className="item-thumb" tappable />
               <div className="item-body">
                 <div className="item-name">{item.name}</div>
                 <div className="item-sub">

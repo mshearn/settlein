@@ -138,7 +138,7 @@ export function DonateView({
               <span className={`check-circle ${item.done ? "checked" : ""}`}>
                 {item.done ? "✓" : ""}
               </span>
-              <PhotoImg blob={item.photo} alt="" className="item-thumb" />
+              <PhotoImg blob={item.photo} alt={item.name} className="item-thumb" tappable />
               <span className="item-body">
                 <span className="item-name">{item.name}</span>
                 <br />

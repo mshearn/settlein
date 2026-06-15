@@ -48,6 +48,7 @@ export function MoveView({ store }: { store: Store }) {
                       blob={item.photo}
                       alt={item.name}
                       className="item-thumb"
+                      tappable
                     />
                     <div className="item-body">
                       <div className="item-name">{item.name}</div>

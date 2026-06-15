@@ -343,6 +343,61 @@ textarea {
   color: var(--sell);
 }
 
+/* ---------- Lightbox ---------- */
+.lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: 12px;
+  object-fit: contain;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  touch-action: pinch-zoom;
+}
+
+.lightbox-close {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* Make tappable thumbs show a pointer and a subtle zoom cursor hint. */
+button.photo-tap {
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: zoom-in;
+  flex-shrink: 0;
+}
+
+button.photo-tap img,
+button.photo-tap span {
+  display: block;
+}
+
 /* ---------- iOS install hint ---------- */
 .install-hint {
   background: var(--blue-card);

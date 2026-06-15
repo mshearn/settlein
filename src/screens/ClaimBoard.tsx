@@ -5,6 +5,7 @@ import {
   type BoardItem,
   type BoardKind,
 } from "../claims";
+import { Lightbox } from "../components/Lightbox";
 
 /**
  * The public page reached via the shared #board/<id> link. Gift boards let
@@ -15,6 +16,7 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
   const [items, setItems] = useState<BoardItem[] | null>(null);
   const [kind, setKind] = useState<BoardKind>("gift");
   const [failed, setFailed] = useState(false);
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
   const [claiming, setClaiming] = useState<string | null>(null);
   const [claimName, setClaimName] = useState(
     localStorage.getItem("settlein-claim-name") ?? "",
@@ -118,10 +120,24 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
         )}
       </section>
 
+      {lightbox && (
+        <Lightbox
+          src={lightbox.src}
+          alt={lightbox.alt}
+          onClose={() => setLightbox(null)}
+        />
+      )}
+
       {items.map((item) => (
         <div key={item.id} className="card item-card" style={{ flexWrap: "wrap" }}>
           {item.photo ? (
-            <img src={item.photo} alt={item.name} className="item-thumb" />
+            <button
+              className="photo-tap item-thumb"
+              aria-label={`View full-size photo of ${item.name}`}
+              onClick={() => setLightbox({ src: item.photo!, alt: item.name })}
+            >
+              <img src={item.photo} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </button>
           ) : (
             <span className="item-thumb" aria-hidden="true">
               📦
