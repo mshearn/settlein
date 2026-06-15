@@ -15,6 +15,7 @@ export interface BoardItem {
   category: string;
   note: string;
   claimedBy: string | null;
+  claimNote: string | null;
   photo: string | null; // data URL
 }
 
@@ -66,6 +67,7 @@ async function toBoardItems(items: Item[]): Promise<BoardItem[]> {
       category: i.category,
       note: i.note,
       claimedBy: i.claimedBy ?? null,
+      claimNote: i.claimNote ?? null,
       photo: i.photo
         ? await blobToDataUrl(await downscalePhoto(i.photo, 640, 0.7))
         : null,
@@ -126,18 +128,19 @@ export async function claimRemote(
   itemId: string,
   name: string,
   ownerToken?: string,
-): Promise<{ ok: boolean; claimedBy: string }> {
+  claimNote?: string,
+): Promise<{ ok: boolean; claimedBy: string; claimNote: string | null }> {
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (ownerToken) headers["X-Owner-Token"] = ownerToken;
   const res = await fetch(`${CLAIMS_API}/board/${boardId}/claim`, {
     method: "POST",
     headers,
-    body: JSON.stringify({ itemId, name }),
+    body: JSON.stringify({ itemId, name, claimNote: claimNote ?? null }),
   });
-  const data = (await res.json()) as { claimedBy: string };
-  if (res.status === 409) return { ok: false, claimedBy: data.claimedBy };
+  const data = (await res.json()) as { claimedBy: string; claimNote?: string | null };
+  if (res.status === 409) return { ok: false, claimedBy: data.claimedBy, claimNote: data.claimNote ?? null };
   if (!res.ok) throw new Error("claim failed");
-  return { ok: true, claimedBy: data.claimedBy };
+  return { ok: true, claimedBy: data.claimedBy, claimNote: data.claimNote ?? null };
 }
 
 /**

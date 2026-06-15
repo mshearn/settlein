@@ -21,6 +21,7 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
   const [claimName, setClaimName] = useState(
     localStorage.getItem("settlein-claim-name") ?? "",
   );
+  const [claimNote, setClaimNote] = useState("");
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -39,11 +40,13 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
     if (!name) return;
     localStorage.setItem("settlein-claim-name", name);
     try {
-      const result = await claimRemote(boardId, item.id, name);
+      const result = await claimRemote(boardId, item.id, name, undefined, claimNote.trim() || undefined);
       setItems(
         (prev) =>
           prev?.map((i) =>
-            i.id === item.id ? { ...i, claimedBy: result.claimedBy } : i,
+            i.id === item.id
+              ? { ...i, claimedBy: result.claimedBy, claimNote: result.claimNote }
+              : i,
           ) ?? null,
       );
       setMessage(
@@ -55,6 +58,7 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
       setMessage("Couldn't reach the board — please try again.");
     }
     setClaiming(null);
+    setClaimNote("");
     setTimeout(() => setMessage(null), 4000);
   }
 
@@ -149,9 +153,16 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
             {item.note && <div className="item-sub">📝 {item.note}</div>}
             {kind !== "donate" &&
               (item.claimedBy ? (
-                <span className="badge badge-gift">
-                  Claimed by {item.claimedBy}
-                </span>
+                <>
+                  <span className="badge badge-gift">
+                    Claimed by {item.claimedBy}
+                  </span>
+                  {item.claimNote && (
+                    <div className="item-sub" style={{ marginTop: 4 }}>
+                      💬 {item.claimNote}
+                    </div>
+                  )}
+                </>
               ) : (
                 <span className="badge badge-keep">Available</span>
               ))}
@@ -178,8 +189,18 @@ export function ClaimBoard({ boardId }: { boardId: string }) {
                 onChange={(e) => setClaimName(e.target.value)}
                 autoFocus
               />
+              <label className="field-label" htmlFor={`note-${item.id}`} style={{ marginTop: 10 }}>
+                Leave a note (optional)
+              </label>
+              <input
+                id={`note-${item.id}`}
+                className="text-input"
+                placeholder="e.g. I'd like the lamp but the table can be donated"
+                value={claimNote}
+                onChange={(e) => setClaimNote(e.target.value)}
+              />
               <div className="btn-row" style={{ marginTop: 10 }}>
-                <button className="btn btn-secondary" onClick={() => setClaiming(null)}>
+                <button className="btn btn-secondary" onClick={() => { setClaiming(null); setClaimNote(""); }}>
                   Cancel
                 </button>
                 <button

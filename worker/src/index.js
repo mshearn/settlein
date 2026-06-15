@@ -61,6 +61,7 @@ function sanitizeItems(items) {
       category: cleanString(i.category, 40),
       note: cleanString(i.note, 500),
       claimedBy: i.claimedBy ? cleanString(i.claimedBy, 60) : null,
+      claimNote: i.claimNote ? cleanString(i.claimNote, 300) : null,
       photo,
     };
   });
@@ -143,12 +144,14 @@ export default {
         const name = cleanString(body.name, 60).trim();
         if (!name) return err(400, "name required");
         if (item.claimedBy && item.claimedBy !== name && !isOwner) {
-          return json({ claimedBy: item.claimedBy }, 409);
+          return json({ claimedBy: item.claimedBy, claimNote: item.claimNote ?? null }, 409);
         }
+        const claimNote = body.claimNote ? cleanString(body.claimNote, 300) : null;
         item.claimedBy = name;
+        item.claimNote = claimNote;
         board.updatedAt = Date.now();
         await putBoard(env, id, board);
-        return json({ ok: true, claimedBy: name });
+        return json({ ok: true, claimedBy: name, claimNote });
       }
 
       // POST /board/:id/unclaim — owner only

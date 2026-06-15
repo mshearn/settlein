@@ -21,6 +21,8 @@ export interface Item {
   done?: boolean;
   /** Gift claim board */
   claimedBy?: string;
+  /** Optional note left by the family member when claiming */
+  claimNote?: string;
   /** Sell: asking price + garage-sale cash tracker */
   price?: number;
   sold?: boolean;

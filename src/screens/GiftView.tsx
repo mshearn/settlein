@@ -42,8 +42,14 @@ export function GiftView({
         if (!remote || cancelled) return;
         for (const bi of remote.items) {
           const local = store.items.find((i) => i.id === bi.id);
-          if (local && bi.claimedBy && local.claimedBy !== bi.claimedBy) {
-            await store.updateItem(local.id, { claimedBy: bi.claimedBy });
+          if (!local) continue;
+          const claimedByChanged = bi.claimedBy && local.claimedBy !== bi.claimedBy;
+          const claimNoteChanged = bi.claimNote !== (local.claimNote ?? null);
+          if (claimedByChanged || (bi.claimedBy && claimNoteChanged)) {
+            await store.updateItem(local.id, {
+              claimedBy: bi.claimedBy ?? undefined,
+              claimNote: bi.claimNote ?? undefined,
+            });
           }
         }
       })
@@ -160,9 +166,16 @@ export function GiftView({
                 </div>
                 {item.note && <div className="item-sub">📝 {item.note}</div>}
                 {item.claimedBy ? (
-                  <span className="badge badge-gift">
-                    Claimed by {item.claimedBy}
-                  </span>
+                  <>
+                    <span className="badge badge-gift">
+                      Claimed by {item.claimedBy}
+                    </span>
+                    {item.claimNote && (
+                      <div className="item-sub" style={{ marginTop: 4 }}>
+                        💬 {item.claimNote}
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <span className="badge badge-keep">Available</span>
                 )}
