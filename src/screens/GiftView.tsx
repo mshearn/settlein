@@ -189,16 +189,28 @@ export function GiftView({
                   ↩︎
                 </button>
               ) : (
-                <button
-                  className="btn btn-secondary no-print"
-                  style={{ width: "auto", padding: "8px 18px" }}
-                  onClick={() => {
-                    setClaiming(item.id);
-                    setClaimName("");
-                  }}
-                >
-                  Claim
-                </button>
+                <div className="no-print" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
+                  <button
+                    className="btn btn-secondary"
+                    style={{ width: "auto", padding: "8px 18px" }}
+                    onClick={() => {
+                      setClaiming(item.id);
+                      setClaimName("");
+                    }}
+                  >
+                    Claim
+                  </button>
+                  <button
+                    className="btn-quiet"
+                    style={{ fontSize: "0.85rem" }}
+                    onClick={async () => {
+                      await store.updateItem(item.id, { disposition: "donate" });
+                      showToast(`${item.name} moved to Donate`);
+                    }}
+                  >
+                    → Donate instead
+                  </button>
+                </div>
               )}
               {claiming === item.id && (
                 <div style={{ width: "100%" }} className="no-print">
